@@ -1,5 +1,5 @@
 ///
-/// Exemples des slides avec des horloges sur l'héritage, le polymorphisme et la conversion.
+/// Exemples des slides avec des horloges sur l'hÃ©ritage, le polymorphisme et la conversion.
 ///
 
 #pragma once
@@ -11,6 +11,7 @@
 #include <string>
 #include <ctime>
 #include <iostream>
+#include <concepts>
 
 #include <cppitertools/itertools.hpp>
 
@@ -25,9 +26,9 @@ public:
 		update();
 	}
 
-	~Clock() = default;
+	virtual ~Clock() = default;
 
-	string getLocation() const {
+	virtual string getLocation() const {
 		return "Local";
 	}
 
@@ -35,7 +36,7 @@ public:
 		return isMilitary_;
 	}
 
-	int getHours() const {
+	virtual int getHours() const {
 		return now_.tm_hour % (isMilitary_ ? 24 : 12);
 	}
 
@@ -50,12 +51,12 @@ public:
 
 	friend ostream& operator<<(ostream& out, const Clock& clock) {
 		char hm[32] = "";
-		snprintf(hm, 32, "%2i:%02i", clock.getHours(), clock.getMinutes());
+		snprintf(hm, sizeof(hm) / sizeof(hm[0]), "%2i:%02i", clock.getHours(), clock.getMinutes());
 		return out << clock.getLocation() << ": " << hm;
 	}
 
 private:
-	bool isMilitary_;
+	bool isMilitary_ = false;
 	tm   now_ = {};
 };
 
@@ -67,16 +68,22 @@ public:
 	  location_(location),
 	  timeDiff_(timeDiff) { }
 
-	string getLocation() const {
+	~TravelClock() = default;
+
+	string getLocation() const override {
 		return location_;
 	}
 
-	int getHours() const {
+	int getHours() const override {
 		static auto posMod = [] (int x, int n) {
 			return (x % n) + (x < 0 ? n : 0);
 		};
 		int h = Clock::getHours() + timeDiff_;
 		return posMod(h, isMilitary() ? 24 : 12);
+	}
+
+	int getTimeDiff() const {
+		return timeDiff_;
 	}
 
 private:
