@@ -18,42 +18,34 @@
 using namespace std;
 
 
-void printDefCtor ( const char* c )
-{
+void printDefCtor(const char* c) {
 	printf("%s::%s()" "\n", c, c);
 }
 
-void printCpyCtor ( const char* c )
-{
+void printCpyCtor(const char* c) {
 	printf("%s::%s(const %s&)" "\n", c, c, c);
 }
 
-void printMovCtor ( const char* c )
-{
+void printMovCtor(const char* c) {
 	printf("%s::%s(%s&&)" "\n", c, c, c);
 }
 
-void printIntParamCtor ( const char* c )
-{
+void printIntParamCtor(const char* c) {
 	printf("%s::%s(int)" "\n", c, c);
 }
 
-void printStrParamCtor ( const char* c )
-{
+void printStrParamCtor(const char* c) {
 	printf("%s::%s(const string&)" "\n", c, c);
 }
 
-void printDtor ( const char* c )
-{
+void printDtor(const char* c) {
 	printf("%s::~%s()" "\n", c, c);
 }
 
-void printCpyAsgn ( const char* c )
-{
+void printCpyAsgn(const char* c) {
 	printf("%s::operator=(const %s&)" "\n", c, c);
 }
 
-void printMovAsgn ( const char* c )
-{
+void printMovAsgn(const char* c) {
 	printf("%s::operator=(%s&&)" "\n", c, c);
 }
